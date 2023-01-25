@@ -26,9 +26,11 @@ int main(int argc , char* argv[]) {
         fseek(file, i++, SEEK_SET);
         c = fgetc(file);
 
-        printf("%C", c);
-        /*
+        unsigned int hunting;
+        char temp_c;
         switch(c) {
+            case EOF:
+                return 0;
             case '>':
                 p++;
                 break;
@@ -42,23 +44,37 @@ int main(int argc , char* argv[]) {
                 (*p)--;
                 break;
             case '[': // todo: nested loops?
-                if (*p == 0) {
+                if (*p != 0) {
                     // enter loop
                 } else {
                     // skip to end of loop
-                    while (fseek(file, i++, SEEK_SET) != ']') { // todo: what if we reach the end of the file?
-                        // skip
-                        printf("skip1");
-                    }
+                    hunting = 1;;
+                    do { // todo: what if we reach the end of the file?
+                        fseek(file, i++, SEEK_SET);
+                        temp_c = fgetc(file);
+
+                        if (temp_c == ']')
+                            hunting--;
+                        else if (temp_c == '[')
+                            hunting++;
+
+                    } while (hunting > 0);
                 }
                 break;
             case ']':
                 // skip backwards to start of loop
                 i--;
-                while (fseek(file, --i, SEEK_SET) != '[') { // todo: what if we reach the end of the file?
-                    // skip
-                        printf("skip2");
-                }
+                hunting = 1;;
+                do { // todo: what if we reach the end of the file?
+                    fseek(file, --i, SEEK_SET);
+                    temp_c = fgetc(file);
+
+                    if (temp_c == ']')
+                        hunting++;
+                    else if (temp_c == '[')
+                        hunting--;
+
+                } while (hunting > 0);
                 break;
             case ',':
                 *p = getchar();
@@ -67,8 +83,7 @@ int main(int argc , char* argv[]) {
                 putchar(*p);
                 break;
         }
-        */
-    } while (c != EOF);
+    } while (1);
 
     return 0;
 }
