@@ -11,18 +11,42 @@ int main(int argc , char* argv[]) {
         return 0;
     }
 
-    printf(argv[1]);
-    printf("\n");
-
-    FILE* file_ptr;
-    if ((file_ptr = fopen(argv[1], "r")) == NULL) {
+    FILE* file;
+    if ((file= fopen(argv[1], "r")) == NULL) {
         printf("The file cannot be opened!");
         return 0;
     }
 
+    unsigned char memory[30000];
+    unsigned char* p = memory;
+
     char c;
-    while ((c = fgetc(file_ptr)) != EOF)
-        printf("%c", c);
+    while ((c = fgetc(file)) != EOF) {
+        switch(c) {
+            case '>':
+                p++;
+                break;
+            case '<':
+                p--;
+                break;
+            case '+':
+                (*p)++;
+                break;
+            case '-':
+                (*p)--;
+                break;
+            case '[': // todo: nested loops?
+                break;
+            case ']':
+                break;
+            case ',':
+                *p = getchar();
+                break;
+            case '.':
+                putchar(*p);
+                break;
+        }
+    }
 
     return 0;
 }
