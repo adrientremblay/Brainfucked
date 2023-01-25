@@ -3,7 +3,7 @@
 #define MEMORY_SIZE 30000
 
 /*
- This is a brain fuck interpreter written in C.
+ This is a Brainfuck interpreter written in C.
  An interpreter is a program that runs and executes source code
  in another language. It can thought of as a sort of pseudo-compiler.
 */
@@ -32,6 +32,7 @@ int main(int argc , char* argv[]) {
         char temp_c;
         switch(c) {
             case EOF:
+                putchar('\n');
                 return 0;
             case '>':
                 p++;
@@ -91,5 +92,5 @@ int main(int argc , char* argv[]) {
         }
     } while (1);
 
-    return 0;
+    return -1;
 }
