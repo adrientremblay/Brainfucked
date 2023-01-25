@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define MEMORY_SIZE 30000
+
 /*
  This is a brain fuck interpreter written in C.
  An interpreter is a program that runs and executes source code
@@ -17,7 +19,7 @@ int main(int argc , char* argv[]) {
         return 0;
     }
 
-    unsigned char memory[30000];
+    unsigned char memory[MEMORY_SIZE];
     unsigned char* p = memory;
 
     long int i = 0;
@@ -33,9 +35,13 @@ int main(int argc , char* argv[]) {
                 return 0;
             case '>':
                 p++;
+                if (p >= memory + MEMORY_SIZE)
+                    p = memory;
                 break;
             case '<':
                 p--;
+                if (p <= memory - 1) 
+                    p = memory + MEMORY_SIZE - 1;
                 break;
             case '+':
                 (*p)++;
