@@ -20,8 +20,14 @@ int main(int argc , char* argv[]) {
     unsigned char memory[30000];
     unsigned char* p = memory;
 
+    long int i = 0;
     char c;
-    while ((c = fgetc(file)) != EOF) {
+    do {
+        fseek(file, i++, SEEK_SET);
+        c = fgetc(file);
+
+        printf("%C", c);
+        /*
         switch(c) {
             case '>':
                 p++;
@@ -36,8 +42,23 @@ int main(int argc , char* argv[]) {
                 (*p)--;
                 break;
             case '[': // todo: nested loops?
+                if (*p == 0) {
+                    // enter loop
+                } else {
+                    // skip to end of loop
+                    while (fseek(file, i++, SEEK_SET) != ']') { // todo: what if we reach the end of the file?
+                        // skip
+                        printf("skip1");
+                    }
+                }
                 break;
             case ']':
+                // skip backwards to start of loop
+                i--;
+                while (fseek(file, --i, SEEK_SET) != '[') { // todo: what if we reach the end of the file?
+                    // skip
+                        printf("skip2");
+                }
                 break;
             case ',':
                 *p = getchar();
@@ -46,7 +67,8 @@ int main(int argc , char* argv[]) {
                 putchar(*p);
                 break;
         }
-    }
+        */
+    } while (c != EOF);
 
     return 0;
 }
